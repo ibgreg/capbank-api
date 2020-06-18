@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ibgregorio.capbank.domain.Cliente;
 import com.ibgregorio.capbank.domain.Conta;
 import com.ibgregorio.capbank.domain.Transacao;
+import com.ibgregorio.capbank.domain.enums.Operacao;
 import com.ibgregorio.capbank.domain.enums.TipoTransacao;
 import com.ibgregorio.capbank.repositories.ClienteRepository;
 import com.ibgregorio.capbank.repositories.ContaRepository;
@@ -47,11 +48,11 @@ public class MockService {
 		
 		contaRepository.saveAll(Arrays.asList(cont1, cont2, cont3, cont4, cont5));
 		
-		Transacao tran1 = new Transacao(null, cont2, 150.0, TipoTransacao.CREDITO, sdfHour.parse("15/03/2020 09:42"));
-		Transacao tran2 = new Transacao(null, cont2, 1000.0, TipoTransacao.DEBITO, sdfHour.parse("20/04/2020 17:10")); 
-		Transacao tran3 = new Transacao(null, cont1, 1000.0, TipoTransacao.CREDITO, sdfHour.parse("12/06/2020 11:30")); 
-		Transacao tran4 = new Transacao(null, cont4, 70.0, TipoTransacao.CREDITO, sdfHour.parse("01/04/2020 20:00")); 
-		Transacao tran5 = new Transacao(null, cont5, 70.0, TipoTransacao.DEBITO, sdfHour.parse("27/05/2020 15:10"));
+		Transacao tran1 = new Transacao(null, cont2, cont3, 150.0, TipoTransacao.CREDITO, Operacao.DEPOSITO, sdfHour.parse("15/03/2020 09:42"));
+		Transacao tran2 = new Transacao(null, cont2, cont1, 1000.0, TipoTransacao.DEBITO, Operacao.DEPOSITO, sdfHour.parse("20/04/2020 17:10")); 
+		Transacao tran3 = new Transacao(null, cont1, cont2, 1000.0, TipoTransacao.CREDITO, Operacao.DEPOSITO, sdfHour.parse("12/06/2020 11:30")); 
+		Transacao tran4 = new Transacao(null, cont4, null, 70.0, TipoTransacao.DEBITO,  Operacao.SAQUE, sdfHour.parse("01/04/2020 20:00")); 
+		Transacao tran5 = new Transacao(null, cont5, null, 70.0, TipoTransacao.DEBITO, Operacao.SAQUE, sdfHour.parse("27/05/2020 15:10"));
 		
 		transacaoRepository.saveAll(Arrays.asList(tran1, tran2, tran3, tran4, tran5));
 	}

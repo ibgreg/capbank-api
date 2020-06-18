@@ -14,6 +14,7 @@ import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ibgregorio.capbank.domain.enums.Operacao;
 import com.ibgregorio.capbank.domain.enums.TipoTransacao;
 
 @Entity
@@ -30,9 +31,16 @@ public class Transacao implements Serializable {
 	@JoinColumn(name = "id_conta")
 	private Conta conta;
 	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "id_conta_origem")
+	private Conta contaOrigem;
+	
 	private Double valor;
 	
-	private Integer tipo;
+	private String tipo;
+	
+	private Integer operacao;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -41,12 +49,14 @@ public class Transacao implements Serializable {
 	public Transacao() {
 	}
 
-	public Transacao(Integer id, Conta conta, Double valor, TipoTransacao tipo, Date dataTransacao) {
+	public Transacao(Integer id, Conta conta, Conta contaOrigem, Double valor, TipoTransacao tipo, Operacao operacao, Date dataTransacao) {
 		super();
 		this.id = id;
 		this.conta = conta;
+		this.contaOrigem = contaOrigem;
 		this.valor = valor;
 		this.tipo = (tipo == null) ? null : tipo.getCodigo();
+		this.operacao = (operacao == null) ? null : operacao.getCodigo();
 		this.dataTransacao = dataTransacao;
 	}
 
@@ -66,6 +76,14 @@ public class Transacao implements Serializable {
 		this.conta = conta;
 	}
 
+	public Conta getContaOrigem() {
+		return contaOrigem;
+	}
+
+	public void setContaOrigem(Conta contaOrigem) {
+		this.contaOrigem = contaOrigem;
+	}
+
 	public Double getValor() {
 		return valor;
 	}
@@ -80,6 +98,14 @@ public class Transacao implements Serializable {
 
 	public void setTipo(TipoTransacao tipo) {
 		this.tipo = tipo.getCodigo();
+	}
+	
+	public Operacao getOperacao() {
+		return Operacao.toEnum(operacao);
+	}
+
+	public void setOperacao(Operacao oper) {
+		this.operacao = oper.getCodigo();
 	}
 
 	public Date getDataTransacao() {
