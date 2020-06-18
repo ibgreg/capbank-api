@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ibgregorio.capbank.domain.enums.TipoTransacao;
 
@@ -33,6 +34,7 @@ public class Transacao implements Serializable {
 	
 	private Integer tipo;
 	
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataTransacao;
 	
