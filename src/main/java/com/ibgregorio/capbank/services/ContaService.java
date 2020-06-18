@@ -21,6 +21,12 @@ public class ContaService {
 		return conta.orElseThrow(() -> new ObjectNotFoundException("Conta não encontrada: " + id));
 	}
 	
+	public Conta findByNumConta(Integer numConta) {
+		Optional<Conta> conta = repo.findByNumConta(numConta);
+		
+		return conta.orElseThrow(() -> new ObjectNotFoundException("Conta não encontrada: " + numConta));
+	}
+	
 	public Conta update(Conta contaAtualizada) {
 		Conta conta = find(contaAtualizada.getId());
 		conta.setSaldo(contaAtualizada.getSaldo());
