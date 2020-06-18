@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ibgregorio.capbank.domain.enums.TipoTransacao;
 
 @Entity
@@ -23,6 +24,7 @@ public class Transacao implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_conta")
 	private Conta conta;
