@@ -1,6 +1,6 @@
 package com.ibgregorio.capbank.services;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class TransacaoService {
 	@Transactional
 	public Transacao insert(Transacao transacao) {
 		transacao.setId(null);
-		transacao.setDataTransacao(LocalDateTime.now());
+		transacao.setDataTransacao(new Date(System.currentTimeMillis()));
 		
 		transacao = repo.save(transacao);
 		

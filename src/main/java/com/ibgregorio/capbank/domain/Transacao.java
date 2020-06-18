@@ -1,7 +1,7 @@
 package com.ibgregorio.capbank.domain;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,12 +32,12 @@ public class Transacao implements Serializable {
 	private Integer tipo;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	private LocalDateTime dataTransacao;
+	private Date dataTransacao;
 	
 	public Transacao() {
 	}
 
-	public Transacao(Integer id, Conta conta, Double valor, TipoTransacao tipo, LocalDateTime dataTransacao) {
+	public Transacao(Integer id, Conta conta, Double valor, TipoTransacao tipo, Date dataTransacao) {
 		super();
 		this.id = id;
 		this.conta = conta;
@@ -78,11 +78,11 @@ public class Transacao implements Serializable {
 		this.tipo = tipo.getCodigo();
 	}
 
-	public LocalDateTime getDataTransacao() {
+	public Date getDataTransacao() {
 		return dataTransacao;
 	}
 
-	public void setDataTransacao(LocalDateTime dataTransacao) {
+	public void setDataTransacao(Date dataTransacao) {
 		this.dataTransacao = dataTransacao;
 	}
 
