@@ -47,7 +47,7 @@ public class MockService {
 		
 		contaRepository.saveAll(Arrays.asList(cont1, cont2, cont3, cont4, cont5));
 		
-		Transacao tran1 = new Transacao(null, cont2, 150.0, TipoTransacao.DEBITO, sdfHour.parse("15/03/2020 09:42"));
+		Transacao tran1 = new Transacao(null, cont2, 150.0, TipoTransacao.CREDITO, sdfHour.parse("15/03/2020 09:42"));
 		Transacao tran2 = new Transacao(null, cont2, 1000.0, TipoTransacao.DEBITO, sdfHour.parse("20/04/2020 17:10")); 
 		Transacao tran3 = new Transacao(null, cont1, 1000.0, TipoTransacao.CREDITO, sdfHour.parse("12/06/2020 11:30")); 
 		Transacao tran4 = new Transacao(null, cont4, 70.0, TipoTransacao.CREDITO, sdfHour.parse("01/04/2020 20:00")); 
