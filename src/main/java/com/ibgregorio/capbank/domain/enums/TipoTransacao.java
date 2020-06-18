@@ -2,27 +2,28 @@ package com.ibgregorio.capbank.domain.enums;
 
 public enum TipoTransacao {
 	
-	CREDITO(1, "Crédito"),
-	DEBITO(2, "Débito");
+	CREDITO("C", "Crédito"),
+	DEBITO("D", "Débito");
 
-	private int codigo;
+	private String codigo;
 	
 	private String descricao;
 
-	private TipoTransacao(int codigo, String descricao) {
+	private TipoTransacao(String codigo, String descricao) {
 		this.codigo = codigo;
 		this.descricao = descricao;
 	}
 
-	public int getCodigo() {
+	public String getCodigo() {
 		return codigo;
 	}
+
 
 	public String getDescricao() {
 		return descricao;
 	}
 	
-	public static TipoTransacao toEnum(Integer cod) {
+	public static TipoTransacao toEnum(String cod) {
 		
 		if (cod == null) {
 			return null;
@@ -34,7 +35,7 @@ public enum TipoTransacao {
 			}
 		}
 		
-		throw new IllegalArgumentException("Id inválido: " + cod);
+		throw new IllegalArgumentException("Código inválido: " + cod);
 	}
 	
 }
