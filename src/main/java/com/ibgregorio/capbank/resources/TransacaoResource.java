@@ -23,10 +23,21 @@ public class TransacaoResource {
 	@Autowired
 	private TransacaoService service;
 	
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody TransacaoDTO transacaoDto) {
+	@RequestMapping(value = "/saque", method = RequestMethod.POST)
+	public ResponseEntity<Void> insertSaque(@Valid @RequestBody TransacaoDTO transacaoDto) {
 		Transacao transacao = service.dtoToEntity(transacaoDto);
-		transacao = service.insert(transacao);
+		transacao = service.insertSaque(transacao);
+		
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}").buildAndExpand(transacao.getId()).toUri();
+		
+		return ResponseEntity.created(uri).build();
+	}
+	
+	@RequestMapping(value = "/deposito", method = RequestMethod.POST)
+	public ResponseEntity<Void> insertDeposito(@Valid @RequestBody TransacaoDTO transacaoDto) {
+		Transacao transacao = service.dtoToEntity(transacaoDto);
+		transacao = service.insertDeposito(transacao);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(transacao.getId()).toUri();

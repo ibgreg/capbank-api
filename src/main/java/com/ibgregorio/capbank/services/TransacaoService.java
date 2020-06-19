@@ -30,21 +30,49 @@ public class TransacaoService {
 		return transacao.orElseThrow(() -> new ObjectNotFoundException("Transacao não encontrada: " + id));
 	}
 	
-	@Transactional
-	public Transacao insert(Transacao transacao) {
-		transacao.setId(null);		
+	public Transacao insertSaque(Transacao transacao) {
 		transacao.setTipo(TipoTransacao.DEBITO);
+		transacao = insert(transacao);
+		
+		atualizaSaldoConta(transacao.getConta(), transacao);
+		
+		return transacao;
+	}
+	
+	public Transacao insertDeposito(Transacao transacao) {		
+		Transacao transacaoOrigem = new Transacao(null, transacao.getContaOrigem(), transacao.getConta(), transacao.getValor(), TipoTransacao.DEBITO, transacao.getOperacao(), null);
+		transacaoOrigem = insert(transacaoOrigem);
+		atualizaSaldoConta(transacaoOrigem.getConta(), transacaoOrigem);
+
+		transacao.setTipo(TipoTransacao.CREDITO);
+		transacao = insert(transacao);
+		atualizaSaldoConta(transacao.getConta(), transacao);
+		
+		return transacao;
+	}
+	
+	@Transactional
+	private Transacao insert(Transacao transacao) {
+		transacao.setId(null);		
 		transacao.setDataTransacao(new Date(System.currentTimeMillis()));
 		
 		transacao = repo.save(transacao);
 		
-		Conta contaDestino = transacao.getConta();
-		Double novoSaldo = contaDestino.getSaldo() - transacao.getValor();
-		
-		contaDestino.setSaldo(novoSaldo);
-		contaService.update(contaDestino);
-		
 		return transacao;
+	}
+	
+	@Transactional
+	private void atualizaSaldoConta(Conta conta, Transacao transacao) {
+		Double novoSaldo;
+		
+		if (transacao.getTipo().equals(TipoTransacao.CREDITO)) {
+			novoSaldo = conta.getSaldo() + transacao.getValor();			
+		} else {
+			novoSaldo = conta.getSaldo() - transacao.getValor();
+		}
+		
+		conta.setSaldo(novoSaldo);
+		contaService.update(conta);
 	}
 	
 	public Transacao dtoToEntity(TransacaoDTO transacaoDto) {
